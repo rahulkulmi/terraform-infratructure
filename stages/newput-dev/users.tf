@@ -1,10 +1,10 @@
 # special user for microservices
 resource "aws_iam_user" "svcusr" {
-  name = "newput-${var.stage}-svcusr"
+  name = "np-${var.stage}-svcusr"
 }
 # policy for this user
 resource "aws_iam_policy" "svc_usr_policy" {
-  name        = "newput-${var.stage}-svcusr-policy"
+  name        = "np-${var.stage}-svcusr-policy"
   description = "policy for svcusr"
   policy = jsonencode({
     Version = "2012-10-17"
