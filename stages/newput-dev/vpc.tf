@@ -49,9 +49,8 @@ resource "aws_subnet" "private" {
   availability_zone = data.aws_availability_zones.available.names[count.index]
   vpc_id            = aws_vpc.main.id
 
-  # tags = local.tags
   tags = merge(local.tags, {
-    Name = "newput-${var.stage}-private-subnet"
+    Name = "np-${var.stage}-private-subnet"
   })
 }
 
@@ -63,9 +62,8 @@ resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.main.id
   map_public_ip_on_launch = true
 
-  # tags = local.tags
   tags = merge(local.tags, {
-    Name = "newput-${var.stage}-public-subnet"
+    Name = "np-${var.stage}-public-subnet"
   })
 }
 
@@ -73,9 +71,8 @@ resource "aws_subnet" "public" {
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
 
-  # tags = local.tags
   tags = merge(local.tags, {
-    Name = "newput-${var.stage}-internet-gateway"
+    Name = "np-${var.stage}-internet-gateway"
   })
 }
 
@@ -92,9 +89,8 @@ resource "aws_eip" "gw" {
   vpc        = true
   depends_on = [aws_internet_gateway.gw]
 
-  # tags = local.tags
   tags = merge(local.tags, {
-    Name = "newput-${var.stage}-elastic-ip"
+    Name = "np-${var.stage}-elastic-ip"
   })
 }
 
@@ -103,9 +99,8 @@ resource "aws_nat_gateway" "gw" {
   subnet_id     = element(aws_subnet.public.*.id, count.index)
   allocation_id = element(aws_eip.gw.*.id, count.index)
 
-  # tags = local.tags
   tags = merge(local.tags, {
-    Name = "newput-${var.stage}-nat-gateway"
+    Name = "np-${var.stage}-nat-gateway"
   })
 }
 
@@ -119,9 +114,8 @@ resource "aws_route_table" "private" {
     nat_gateway_id = element(aws_nat_gateway.gw.*.id, count.index)
   }
 
-  # tags = local.tags
   tags = merge(local.tags, {
-    Name = "newput-${var.stage}-route-table"
+    Name = "np-${var.stage}-route-table"
   })
 }
 

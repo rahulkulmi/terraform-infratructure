@@ -22,7 +22,7 @@ resource "aws_security_group" "allow_all_tcp" {
 
   # tags = local.tags
   tags = merge(local.tags, {
-    Name = "newput-${var.stage}-sg-allow-all-tcp"
+    Name = "np-${var.stage}-sg-allow-all-tcp"
   })
 }
 /*
