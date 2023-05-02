@@ -95,8 +95,8 @@ resource "aws_eip" "gw" {
 }
 
 resource "aws_nat_gateway" "gw" {
-  count         = var.az_count
-  subnet_id     = element(aws_subnet.public.*.id, count.index)
+  # count         = var.az_count
+  subnet_id     = aws_subnet.public.*.id # element(aws_subnet.public.*.id, count.index)
   allocation_id = aws_eip.gw.id # element(aws_eip.gw.*.id, count.index)
 
   tags = merge(local.tags, {
