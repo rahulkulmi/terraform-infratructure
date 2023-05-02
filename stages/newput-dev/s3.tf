@@ -16,6 +16,8 @@ resource "aws_s3_bucket_ownership_controls" "newput_react_web_ownership_controls
 }
 
 resource "aws_s3_bucket_acl" "newput_react_web_bucket_acl" {
+  depends_on = [aws_s3_bucket_ownership_controls.newput_react_web_ownership_controls]
+
   bucket = aws_s3_bucket.newput_react_web.id
   acl    = "private"
 }
