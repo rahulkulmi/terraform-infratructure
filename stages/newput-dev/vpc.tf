@@ -96,8 +96,10 @@ resource "aws_eip" "gw" {
 
 resource "aws_nat_gateway" "gw" {
   count         = var.az_count
-  subnet_id     = element(aws_subnet.public.*.id, count.index)
-  allocation_id = element(aws_eip.gw.*.id, count.index)
+  # subnet_id     = element(aws_subnet.public.*.id, count.index)
+  # allocation_id = element(aws_eip.gw.*.id, count.index)
+  subnet_id     = aws_subnet.public.id
+  allocation_id = aws_eip.gw.id
 
   tags = merge(local.tags, {
     Name = "np-${var.stage}-nat-gateway"
@@ -111,7 +113,8 @@ resource "aws_route_table" "private" {
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = element(aws_nat_gateway.gw.*.id, count.index)
+    # nat_gateway_id = element(aws_nat_gateway.gw.*.id, count.index)
+    nat_gateway_id = aws_nat_gateway.gw.id
   }
 
   tags = merge(local.tags, {
@@ -122,6 +125,8 @@ resource "aws_route_table" "private" {
 # Explicitly associate the newly created route tables to the private subnets (so they don't default to the main route table)
 resource "aws_route_table_association" "private" {
   count          = var.az_count
-  subnet_id      = element(aws_subnet.private.*.id, count.index)
-  route_table_id = element(aws_route_table.private.*.id, count.index)
+  # subnet_id      = element(aws_subnet.private.*.id, count.index)
+  # route_table_id = element(aws_route_table.private.*.id, count.index)
+  subnet_id      = aws_subnet.private.id
+  route_table_id = aws_route_table.private.id
 }
