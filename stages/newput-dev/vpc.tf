@@ -115,7 +115,7 @@ resource "aws_route_table" "private" {
   }
 
   tags = merge(local.tags, {
-    Name = "np-${var.stage}-route-table"
+    Name = "np-${var.stage}-private-rt"
   })
 }
 
