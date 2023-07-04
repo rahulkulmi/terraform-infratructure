@@ -137,7 +137,8 @@ variable "repository_names" {
   description = "The ECR repository to create and deploy for ECR images"
   default = [
     "newput/node-terraform",
-    "newput/react-terraform"
+    "newput/react-terraform",
+    "newput/lambda-terraform"
   ]
 }
 
